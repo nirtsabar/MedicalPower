@@ -434,8 +434,10 @@ const FORMS_OTHER = [
 const gridRec       = document.getElementById('gridRecommended');
 const gridOther     = document.getElementById('gridOther');
 const sectionRec    = document.getElementById('sectionRecommended');
+const sectionSites    = document.getElementById('sectionSites');
 const sectionOther  = document.getElementById('sectionOther');
 const labelRec      = document.getElementById('labelRecommended');
+const labelSites      = document.getElementById('labelSites');
 const labelOther    = document.getElementById('labelOther');
 const emptyState    = document.getElementById('emptyState');
 const divider       = document.getElementById('divider');
@@ -517,11 +519,11 @@ searchInput.addEventListener('input', () => {
   // Update labels during search
   if (q) {
     labelRec.textContent   = `טפסים מומלצים (${visibleRec})`;
-    labelSite.textContent   = `קישורים רשמיים (${visibleSite})`;
+    labelSites.textContent   = `קישורים רשמיים (${visibleSite})`;
     labelOther.textContent = `טפסים אחרים (${visibleOther})`;
   } else {
     labelRec.textContent   = 'טפסים מומלצים';
-    labelSite.textContent   = 'קישורים רשמיים';
+    labelSites.textContent   = 'קישורים רשמיים';
     labelOther.textContent = 'טפסים אחרים';
   }
 });
