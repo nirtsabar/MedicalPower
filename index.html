@@ -390,14 +390,25 @@ const FORMS_RECOMMENDED = [
     desc: "ייפוי כוח רפואי לפי חוק זכויות החולה הנוטה למות",
     url: "P2DP"
   },
+  
+  // ... add more recommended forms
+];
+
+const OFFICIAL_SITES = [
   {
     title: "אתר משרד המשפטים GOV",
     desc: "סיוע, ייצוג והליכים משפטיים > ייפוי כוח רפואי. כל הטפסים, הסברים וקישור להפקדה",
     url: "https://www.gov.il/he/service/medical_continuous_power_of_attorney"
   },
-  // ... add more recommended forms
-];
+    {
+    title: "אתר משרד הבריאות GOV",
+    desc: "בריאות ורווחה > קופות חולים ושירותים רפואיים > מתן הנחיות רפואיות מקדימות וייפוי כוח",
+    url: "https://www.gov.il/he/service/dying-patient-request"
+  },
 
+  // ... add more official sites
+];
+  
 const FORMS_OTHER = [
   {
     title: "ייפוי כוח ליחיד -  6 עמ'",
@@ -457,7 +468,8 @@ function esc(str) {
 }
 
 renderCards(FORMS_RECOMMENDED, gridRec, 1);
-renderCards(FORMS_OTHER, gridOther, FORMS_RECOMMENDED.length + 1);
+renderCards(OFFICIAL_SITES, gridRec, FORMS_RECOMMENDED.length + 1);
+renderCards(FORMS_OTHER, gridOther, FOFFICIAL_SITES.length + 1);
 
 // ─── Search / Filter ───
 searchInput.addEventListener('input', () => {
@@ -489,9 +501,11 @@ searchInput.addEventListener('input', () => {
   // Update labels during search
   if (q) {
     labelRec.textContent   = `טפסים מומלצים (${visibleRec})`;
+    labelRec.textContent   = `קישורים רשמיים (${visibleRec})`;
     labelOther.textContent = `טפסים אחרים (${visibleOther})`;
   } else {
     labelRec.textContent   = 'טפסים מומלצים';
+    labelRec.textContent   = 'קישורים רשמיים';
     labelOther.textContent = 'טפסים אחרים';
   }
 });
