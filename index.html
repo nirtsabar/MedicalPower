@@ -493,7 +493,7 @@ searchInput.addEventListener('input', () => {
     if (match) visibleRec++;
   });
 
-  gridSite.querySelectorAll('.card').forEach(card => {
+  gridSites.querySelectorAll('.card').forEach(card => {
     const match = !q || (card.dataset.title || '').toLowerCase().includes(q)
                      || (card.dataset.desc  || '').toLowerCase().includes(q);
     card.classList.toggle('hidden', !match);
