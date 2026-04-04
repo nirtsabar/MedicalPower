@@ -469,7 +469,7 @@ function esc(str) {
 
 renderCards(FORMS_RECOMMENDED, gridRec, 1);
 renderCards(OFFICIAL_SITES, gridRec, FORMS_RECOMMENDED.length + 1);
-renderCards(FORMS_OTHER, gridOther, FOFFICIAL_SITES.length + 1);
+renderCards(FORMS_OTHER, gridOther, OFFICIAL_SITES.length + 1);
 
 // ─── Search / Filter ───
 searchInput.addEventListener('input', () => {
@@ -483,6 +483,14 @@ searchInput.addEventListener('input', () => {
     if (match) visibleRec++;
   });
 
+  gridSite.querySelectorAll('.card').forEach(card => {
+    const match = !q || (card.dataset.title || '').toLowerCase().includes(q)
+                     || (card.dataset.desc  || '').toLowerCase().includes(q);
+    card.classList.toggle('hidden', !match);
+    if (match) visibleSite++;
+  });
+
+  
   gridOther.querySelectorAll('.card').forEach(card => {
     const match = !q || (card.dataset.title || '').toLowerCase().includes(q)
                      || (card.dataset.desc  || '').toLowerCase().includes(q);
@@ -490,22 +498,23 @@ searchInput.addEventListener('input', () => {
     if (match) visibleOther++;
   });
 
-  const total = visibleRec + visibleOther;
+  const total = visibleRec + visibleSite + visibleOther;
 
   // Show/hide sections based on matches
   sectionRec.style.display   = visibleRec   > 0 ? '' : 'none';
+  sectionSite.style.display  = visibleSite  > 0 ? '' : 'none';
   sectionOther.style.display = visibleOther > 0 ? '' : 'none';
-  divider.style.display      = (visibleRec > 0 && visibleOther > 0) ? '' : 'none';
+  divider.style.display      = (visibleRec > 0 && visibleSite > 0 && visibleOther > 0) ? '' : 'none';
   emptyState.classList.toggle('visible', total === 0);
 
   // Update labels during search
   if (q) {
     labelRec.textContent   = `טפסים מומלצים (${visibleRec})`;
-    labelRec.textContent   = `קישורים רשמיים (${visibleRec})`;
+    labelSite.textContent   = `קישורים רשמיים (${visibleSite})`;
     labelOther.textContent = `טפסים אחרים (${visibleOther})`;
   } else {
     labelRec.textContent   = 'טפסים מומלצים';
-    labelRec.textContent   = 'קישורים רשמיים';
+    labelSite.textContent   = 'קישורים רשמיים';
     labelOther.textContent = 'טפסים אחרים';
   }
 });
