@@ -226,7 +226,15 @@
     background: linear-gradient(135deg, var(--accent), var(--accent-light));
   }
 
-  /* "Other" section cards get a subtler badge */
+  /* Sites section: blue-ish badges */
+  .section-sites .card-num {
+    background: linear-gradient(135deg, #3b6d8c, #5a9ab5);
+  }
+  .section-sites .card:hover .card-num {
+    background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  }
+
+  /* Other section: subtler grey badges */
   .section-other .card-num {
     background: linear-gradient(135deg, #8a8a8a, #aaa);
   }
@@ -292,7 +300,6 @@
 
   .empty-state p { font-size: 0.95rem; }
 
-  /* Section divider */
   .section-divider {
     border: none;
     border-top: 1.5px dashed var(--border);
@@ -345,18 +352,18 @@
       <div class="grid" id="gridRecommended"></div>
     </div>
 
-    <hr class="section-divider" id="divider">
+    <hr class="section-divider" id="divider1">
+
     <!-- ── Section: Sites ── -->
     <div class="category-section section-sites" id="sectionSites">
       <div class="category-label" id="labelSites">אתרים רשמיים</div>
       <div class="grid" id="gridSites"></div>
     </div>
 
-    <hr class="section-divider" id="divider">
+    <hr class="section-divider" id="divider2">
 
     <!-- ── Section: Other ── -->
     <div class="category-section section-other" id="sectionOther">
-      <br>
       <div class="category-label" id="labelOther">טפסים אחרים</div>
       <div class="grid" id="gridOther"></div>
     </div>
@@ -397,7 +404,6 @@ const FORMS_RECOMMENDED = [
     desc: "ייפוי כוח רפואי לפי חוק זכויות החולה הנוטה למות",
     url: "P2DP"
   },
-  
   // ... add more recommended forms
 ];
 
@@ -407,15 +413,14 @@ const OFFICIAL_SITES = [
     desc: "סיוע, ייצוג והליכים משפטיים > ייפוי כוח רפואי. כל הטפסים, הסברים וקישור להפקדה",
     url: "https://www.gov.il/he/service/medical_continuous_power_of_attorney"
   },
-    {
+  {
     title: "אתר GOV משרד הבריאות",
     desc: "בריאות ורווחה > קופות חולים ושירותים רפואיים > מתן הנחיות רפואיות מקדימות וייפוי כוח",
     url: "https://www.gov.il/he/service/dying-patient-request"
   },
-
   // ... add more official sites
 ];
-  
+
 const FORMS_OTHER = [
   {
     title: "ייפוי כוח ליחיד -  6 עמ'",
@@ -430,18 +435,19 @@ const FORMS_OTHER = [
   // ... add more other forms
 ];
 
-// ─── Render ───
+// ─── DOM refs ───
 const gridRec       = document.getElementById('gridRecommended');
 const gridSites     = document.getElementById('gridSites');
 const gridOther     = document.getElementById('gridOther');
 const sectionRec    = document.getElementById('sectionRecommended');
-const sectionSites    = document.getElementById('sectionSites');
+const sectionSites  = document.getElementById('sectionSites');
 const sectionOther  = document.getElementById('sectionOther');
 const labelRec      = document.getElementById('labelRecommended');
-const labelSites      = document.getElementById('labelSites');
+const labelSites    = document.getElementById('labelSites');
 const labelOther    = document.getElementById('labelOther');
 const emptyState    = document.getElementById('emptyState');
-const divider       = document.getElementById('divider');
+const divider1      = document.getElementById('divider1');
+const divider2      = document.getElementById('divider2');
 const searchInput   = document.getElementById('searchInput');
 
 function renderCards(forms, container, startNum) {
@@ -477,14 +483,15 @@ function esc(str) {
   return d.innerHTML;
 }
 
+// Render each section into its OWN grid
 renderCards(FORMS_RECOMMENDED, gridRec, 1);
-renderCards(OFFICIAL_SITES, gridRec, FORMS_RECOMMENDED.length + 1);
-renderCards(FORMS_OTHER, gridOther, OFFICIAL_SITES.length + 1);
+renderCards(OFFICIAL_SITES, gridSites, FORMS_RECOMMENDED.length + 1);
+renderCards(FORMS_OTHER, gridOther, FORMS_RECOMMENDED.length + OFFICIAL_SITES.length + 1);
 
 // ─── Search / Filter ───
 searchInput.addEventListener('input', () => {
   const q = searchInput.value.trim().toLowerCase();
-  let visibleRec = 0, visibleOther = 0;
+  let visibleRec = 0, visibleSites = 0, visibleOther = 0;
 
   gridRec.querySelectorAll('.card').forEach(card => {
     const match = !q || (card.dataset.title || '').toLowerCase().includes(q)
@@ -497,10 +504,9 @@ searchInput.addEventListener('input', () => {
     const match = !q || (card.dataset.title || '').toLowerCase().includes(q)
                      || (card.dataset.desc  || '').toLowerCase().includes(q);
     card.classList.toggle('hidden', !match);
-    if (match) visibleSite++;
+    if (match) visibleSites++;
   });
 
-  
   gridOther.querySelectorAll('.card').forEach(card => {
     const match = !q || (card.dataset.title || '').toLowerCase().includes(q)
                      || (card.dataset.desc  || '').toLowerCase().includes(q);
@@ -508,23 +514,27 @@ searchInput.addEventListener('input', () => {
     if (match) visibleOther++;
   });
 
-  const total = visibleRec + visibleSite + visibleOther;
+  const total = visibleRec + visibleSites + visibleOther;
 
   // Show/hide sections based on matches
   sectionRec.style.display   = visibleRec   > 0 ? '' : 'none';
-  sectionSite.style.display  = visibleSite  > 0 ? '' : 'none';
+  sectionSites.style.display = visibleSites > 0 ? '' : 'none';
   sectionOther.style.display = visibleOther > 0 ? '' : 'none';
-  divider.style.display      = (visibleRec > 0 && visibleSite > 0 && visibleOther > 0) ? '' : 'none';
+
+  // Show dividers only between adjacent visible sections
+  divider1.style.display = (visibleRec > 0 && visibleSites > 0) ? '' : 'none';
+  divider2.style.display = ((visibleRec > 0 || visibleSites > 0) && visibleOther > 0) ? '' : 'none';
+
   emptyState.classList.toggle('visible', total === 0);
 
   // Update labels during search
   if (q) {
     labelRec.textContent   = `טפסים מומלצים (${visibleRec})`;
-    labelSites.textContent   = `קישורים רשמיים (${visibleSite})`;
+    labelSites.textContent = `אתרים רשמיים (${visibleSites})`;
     labelOther.textContent = `טפסים אחרים (${visibleOther})`;
   } else {
     labelRec.textContent   = 'טפסים מומלצים';
-    labelSites.textContent   = 'קישורים רשמיים';
+    labelSites.textContent = 'אתרים רשמיים';
     labelOther.textContent = 'טפסים אחרים';
   }
 });
