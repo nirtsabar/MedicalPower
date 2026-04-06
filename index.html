@@ -300,6 +300,146 @@
 
   .empty-state p { font-size: 0.95rem; }
 
+  /* ─── Special Clalit card ─── */
+  .card-clalit {
+    background: var(--card-bg); /*linear-gradient(135deg, #0072BC 0%, #005a96 100%);*/
+    border: 1.5px solid var(--border);/* #004d80;*/
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+    animation: cardIn 0.4s ease both;
+    transition: transform var(--transition), box-shadow var(--transition);
+  }
+
+  .card-clalit:hover {
+    transform: translateY(-3px);
+    /*box-shadow: 0 4px 16px rgba(0,114,188,0.25), 0 8px 24px rgba(0,0,0,0.08);*/
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary-light);
+    background: var(--card-hover);
+  }
+
+  .card-clalit:active { transform: translateY(-1px); }
+  .card-clalit.hidden { display: none; }
+
+  .card-clalit::before {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+    pointer-events: none;
+  }
+
+  .card-clalit::after {
+    content: '';
+    position: absolute;
+    bottom: -30px; left: -30px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+    pointer-events: none;
+  }
+
+  .clalit-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+  }
+
+  .clalit-icon {
+    flex-shrink: 0;
+    width: 38px; height: 38px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /*background: linear-gradient(135deg, var(--primary), var(--primary-light));*/
+    background: linear-gradient(135deg, rgba(10,140,56,0.95), rgba(37,155,216,0.95));
+}
+
+  .clalit-icon svg {
+    width: 20px; height: 20px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .clalit-title {
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text); /*#fff;*/
+    line-height: 1.3;
+  }
+
+  .clalit-subtitle {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.4;
+  }
+
+  .clalit-buttons {
+    display: flex;
+    gap: 8px;
+    position: relative;
+    margin-top: auto;
+  }
+
+  .clalit-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 9px 10px;
+    border-radius: 9px;
+    font-family: 'Heebo', sans-serif;
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: opacity var(--transition), transform 0.15s;
+    cursor: pointer;
+  }
+
+  .clalit-btn:active { transform: scale(0.97); }
+
+  .clalit-btn-primary {
+    /*background: rgba(10,140,56,0.95);*/
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .clalit-btn-primary:hover { background: linear-gradient(135deg, var(--accent), var(--accent-light));
+ }
+
+  .clalit-btn-secondary {
+    /*background: rgba(37,155,216,0.95);*/
+    border: 1px solid var(--border); /*rgba(255,255,255,0.3);*/
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .clalit-btn-secondary:hover { background: linear-gradient(135deg, var(--accent), var(--accent-light));
+ }
+
+  .clalit-btn svg {
+    width: 12px; height: 12px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
   .section-divider {
     border: none;
     border-top: 1.5px dashed var(--border);
@@ -378,7 +518,7 @@
 
   </div>
 
-  <footer>בחירת טפסים &bull; גרסה 1.2</footer>
+  <footer>בחירת טפסים &bull; גרסה 1.3</footer>
 
 </div>
 
@@ -406,6 +546,18 @@ const FORMS_RECOMMENDED = [
   },
   // ... add more recommended forms
 ];
+
+// ╔══════════════════════════════════════════════════════════════════╗
+// ║  SPECIAL CLALIT CARD — appears last in the Recommended section  ║
+// ╚══════════════════════════════════════════════════════════════════╝
+const CLALIT_CARD = {
+  title: "לצוות 'כללית' בלבד",
+  subtitle: "",
+  // SVG icon path (pulse/heartbeat icon)
+  icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+  btn1: { label: "טבלה מרכזת",  url: "https://clalit.sharepoint.com/:w:/r/sites/North_Nursing/DocLib1/%D7%94%D7%A0%D7%97%D7%99%D7%95%D7%AA%20%D7%A8%D7%A4%D7%95%D7%90%D7%99%D7%95%D7%AA%20%D7%9E%D7%A7%D7%93%D7%99%D7%9E%D7%95%D7%AA%20%D7%95%D7%99%D7%99%D7%A4%D7%95%D7%99%20%D7%9B%D7%95%D7%97/%D7%98%D7%91%D7%9C%D7%94%20%D7%9E%D7%A8%D7%9B%D7%96%D7%AA.docx?d=w18fc3b1cc1a14b65b14cb0c35cb83680&csf=1&web=1&e=z1gB4f" },
+  btn2: { label: "הסבר ל-1 ו-2",  url: "https://clalit.sharepoint.com/:w:/r/sites/North_Nursing/DocLib1/%D7%94%D7%A0%D7%97%D7%99%D7%95%D7%AA%20%D7%A8%D7%A4%D7%95%D7%90%D7%99%D7%95%D7%AA%20%D7%9E%D7%A7%D7%93%D7%99%D7%9E%D7%95%D7%AA%20%D7%95%D7%99%D7%99%D7%A4%D7%95%D7%99%20%D7%9B%D7%95%D7%97/%D7%99%D7%99%D7%A4%D7%95%D7%99%20%D7%9B%D7%95%D7%97%20-%20%D7%94%D7%A1%D7%91%D7%A8%20%D7%91%D7%A0%D7%95%D7%92%D7%A2%20%D7%9C%D7%98%D7%95%D7%A4%D7%A1.docx?d=w5029af4a1f1f4c69be7af3cf763b28b8&csf=1&web=1&e=5wpRp7" },
+};
 
 const OFFICIAL_SITES = [
   {
@@ -485,15 +637,50 @@ function esc(str) {
 
 // Render each section into its OWN grid
 renderCards(FORMS_RECOMMENDED, gridRec, 1);
+renderClalitCard(gridRec);
 renderCards(OFFICIAL_SITES, gridSites, FORMS_RECOMMENDED.length + 1);
 renderCards(FORMS_OTHER, gridOther, FORMS_RECOMMENDED.length + OFFICIAL_SITES.length + 1);
+
+function renderClalitCard(container) {
+  const c = CLALIT_CARD;
+  const el = document.createElement('div');
+  el.className = 'card-clalit';
+  el.dataset.title = c.title;
+  el.dataset.desc = c.subtitle;
+  el.style.animationDelay = (FORMS_RECOMMENDED.length * 0.03 + 0.03) + 's';
+
+  el.innerHTML = `
+    <div class="clalit-header">
+      <div class="clalit-icon">
+        <svg viewBox="0 0 24 24">${c.icon}</svg>
+      </div>
+      <div>
+        <div class="clalit-title">${esc(c.title)}</div>
+        <div class="clalit-subtitle">${esc(c.subtitle)}</div>
+      </div>
+    </div>
+    <div class="clalit-buttons">
+      <a class="clalit-btn clalit-btn-primary" href="${esc(c.btn1.url)}" target="_blank" rel="noopener noreferrer">
+        <span>${esc(c.btn1.label)}</span>
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a class="clalit-btn clalit-btn-secondary" href="${esc(c.btn2.url)}" target="_blank" rel="noopener noreferrer">
+        <span>${esc(c.btn2.label)}</span>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </a>
+    </div>
+  `;
+
+  container.appendChild(el);
+}
 
 // ─── Search / Filter ───
 searchInput.addEventListener('input', () => {
   const q = searchInput.value.trim().toLowerCase();
   let visibleRec = 0, visibleSites = 0, visibleOther = 0;
 
-  gridRec.querySelectorAll('.card').forEach(card => {
+  // Search both regular cards AND the special clalit card in recommended
+  gridRec.querySelectorAll('.card, .card-clalit').forEach(card => {
     const match = !q || (card.dataset.title || '').toLowerCase().includes(q)
                      || (card.dataset.desc  || '').toLowerCase().includes(q);
     card.classList.toggle('hidden', !match);
